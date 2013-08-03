@@ -1,50 +1,102 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>信息系统用户登录</title>
-<link href="images/login.css" rel="stylesheet" type="text/css" />
-<link href="css/code.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="javascript/jquery.min.js"></script>
-<script type="text/javascript" src="javascript/code.js"></script>
-<script type="text/javascript">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+	<TITLE>企业信息管理系统--登录</TITLE>
+	<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+	<LINK rel=stylesheet type=text/css href="css/login.css">
+	<META name=GENERATOR content="MSHTML 8.00.6001.19412">
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script language="javascript" type="text/javascript">
+	var code="" ; //在全局 定义验证码
+	function createCode(){ 
+		code = "";
+		var codeLength = 4;//验证码的长度
+		var checkCode = document.getElementById("checkCode");
+		checkCode.value = "";
+		var selectChar = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z');
+
+		for(var i=0;i<codeLength;i++) {
+		   var charIndex = Math.floor(Math.random()*32);
+		   code +=selectChar[charIndex];
+		}
+		if(code.length != codeLength){
+		   createCode();
+		}
+		$("#checkCode").text(code);
+	}
+
+	function validate () {
+		var inputCode = document.getElementById("checkNum").value.toUpperCase();
+
+		if(inputCode.length <=0) {
+		   alert("请输入验证码！");
+		   return false;
+		}
+		else if(inputCode != code ){
+		   alert("验证码输入错误！");
+		   createCode();
+		   return false;
+		}
+		//else {
+		   //alert("验证码通过！");
+		//   return true;
+		//}
+		if($.trim($("#name").val()) == ""){
+			alert("用户名不能为空");
+			return false;
+		}
+		if($.trim($("#password").val()) == ""){
+			alert("密码不能为空");
+			return false;
+		}
+		return true;
+	}
 	$(function(){
-		$('.captcha').focus(function(){
-			createCode();
-			$('.yzm-box').show();
-			});
-			
-		$('.captcha').focusout(function(){
-			$('.yzm-box').hide();
-			});
-		})
+		$("#name").focus();
+		createCode();
+	});
 </script>
-
-</head>
-
-<body>
-	<div id="message-box">用户名或密码错误！</div>
-	<div id="wrap">
-		<div id="header"></div>
-		<div id="content-wrap">
-		<div class="space"></div>
-		<form action="login!login" method="post" onsubmit="return validate()">
-	 		<div class="content">
-				<div class="field"><label>账&nbsp;&nbsp;户：</label><input class="name" name="name"
-					name="" value="" type="text" /></div>
-				<div class="field"><label>密&nbsp;&nbsp;码：</label><input class="password" name="password"
-					name="" value="" type="password" /><br />
-				</div>
-				<div class="field"><label>验证码：</label><input class="captcha"
-					maxlength="6" name="" value="" type="text" /><br />
-					<div class="yzm-box" id="checkCode"></div>
-				</div>
-			<div class="btn"><input name="" type="submit" class="login-btn"
-				value="" /></div>
-			</div>
-		</form>
-	</div>
-	<div id="footer"></div>
-	</div>
-</body>
-</html>
+	
+</HEAD>
+	<BODY style="BACKGROUND-COLOR: #f4f7f9">
+		<DIV class=login>
+			<P class=pl></P>
+			<DIV class=l></DIV>
+			<DIV class=c>
+				<FORM method="post" name="login" action="login!login" onsubmit="return validate();">
+					<DIV class=to>
+						<SPAN class=tol>
+							<A class=v href="/" target=_blank></A>
+						</SPAN>
+					</DIV>
+					<DIV class=in>
+						<DL>
+						  <DT>用户名</DT>
+						  <DD><INPUT style="WIDTH: 150px" type="text" name="name" id="name"></DD>
+						  <DD class=e></DD>
+						</DL>
+						<DL>
+						  <DT>密　码</DT>
+						  <DD><INPUT style="WIDTH: 150px" type="password" name="password" id="password"></DD>
+						  <DD class=e></DD>
+						</DL>
+						<DL>
+						  <DT>验证码</DT>
+						  <DD><INPUT style="WIDTH: 80px" type=text name="checkcode" id="checkNum"></DD>
+						  <DD style="PADDING-TOP: 5px">
+						  	<div id="checkCode" onclick="createCode()"></div>
+						  </DD>
+						  <DD class=e></DD>
+						</DL>
+ 					</DIV>
+					<DIV class="su">
+						<SPAN>
+							<INPUT class="go" type="submit" value="">
+						</SPAN>
+					</DIV>
+				</FORM>
+			</DIV>
+			<DIV class=r></DIV>
+			<P class=pr></P></DIV>
+		</BODY>
+</HTML>

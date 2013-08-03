@@ -32,7 +32,12 @@ public class LoginAction extends ActionSupport implements ModelDriven<User>{
 		return userService.validateUser(user, ActionContext.getContext());
 	}
 
-
+	
+	public String logout() throws Exception {
+		ActionContext.getContext().getSession().remove("user");
+		return ERROR;
+	}
+	
 	@Override
 	public User getModel() {
 		return user;
